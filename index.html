@@ -24,8 +24,7 @@
 		</nav>
 
 		<section class="mt-3">
-			<!-- <span v-for="term in terms"
-			class="badge badge-pill badge-info p-1 mr-2">{{term}}</span> -->
+			<!-- active search tags -->
 			<ul class="nav nav-tabs">
 			  <li
 					@click="setActiveKeyword(keyword)"
@@ -40,19 +39,22 @@
 
 			<div class="container-fluid content-row border-right border-bottom border-left pt-3">
 					<p v-if="keywords.length == 0">Добавьте тэги для поиска вакансий</p>
+					<!-- tag actions -->
 					<div v-else class="row">
 						<div class="col-12 mb-3" v-if="activeKeyword && !loading">
 							<span @click="clearHiddenResults()" v-if="Object.entries(hiddenResults).length !== 0 && hiddenResults.constructor === Object" class="float-sm-left badge badge-pill badge-secondary cursorPointer mb-2">Очистить скрытые вакансии</span>
 							<span @click="removeKeyword(activeKeyword)" v-if="activeKeyword" class="badge badge-pill badge-warning float-md-right cursorPointer ml-md-2 mb-2">Удалить тег</span>
 							<span @click="clearAll()" v-if="keywords.length > 1 " class="badge badge-pill badge-danger float-md-right cursorPointer ml-md-2 mb-2">Удалить все теги</span>
 						</div>
+						<!-- loading spinner -->
 						<div v-if="loading" class="col-12">
 							<div class="spinner-grow" role="status">
 							  <span class="sr-only">Загрузка...</span>
 							</div>
 						</div>
 			        <div v-for="result in activeResults" class="col-sm-12 col-md-4 mb-4" v-if="!loading && !hiddenResults[result.link]">
-			            <div class="card h-100">
+									<!-- cards -->
+									<div class="card h-100">
 										<span
 											@click="hideResult(result)"
 										  class="text-right pr-3 cursorPointer align-self-end" data-toggle="tooltip" data-placement="top" title="Скрыть вакансию">➖</span>
