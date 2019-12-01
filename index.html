@@ -9,7 +9,6 @@
 <body>
 
 	<main id="app" class="container">
-
 		<nav class="navbar navbar-light bg-light  justify-content-betwee mb-5">
 		  <a class="navbar-brand d-flex align-items-center" href="#">
 		    <img src="img/lurker.svg" width="50" height="50" class="d-inline-block align-top" alt="">
@@ -58,28 +57,41 @@
 										<span
 											@click="hideResult(result)"
 										  class="text-right pr-3 cursorPointer align-self-end" data-toggle="tooltip" data-placement="top" title="Скрыть вакансию">➖</span>
-										<img src="img/open-sign.svg" class="card-img-top mx-auto" alt="Открыта вакансия" style="max-width:100px;">
+										<!-- <img src="img/open-sign.svg" class="card-img-top mx-auto" alt="Открыта вакансия" style="max-width:100px;"> -->
+										<div class="card-header">
+											<h6 class="card-title"><a :href="result.link" target="_blank">{{result.title}}</a></h6>
+										</div>
 										<div class="card-body">
-
-											<h6 class="card-title"><a :href="result.link">{{result.title}}</a></h6>
 											<p v-if="result.salary" class="card-text">{{result.salary}}</p>
 											<p v-else class="card-text">з\п не указана</p>
+											<!-- Button trigger modal -->
+											<button id="show-modal" @click="updateMessage(result)" class="btn btn-outline-primary btn-sm">Подробнее..</button>
+										</div>
+										<div class="card-footer text-muted">
 											<p>{{result.date}}</p>
 											<a :href="result.employer.link">{{result.employer.name}}</a>
 											<br>
 											<small><em class="text-secondary">{{result.address}}</em></small>
-										</div>
+									  </div>
 			            </div>
 			        </div>
-
 			    </div>
 			</div>
 		</section>
+
+
+
+				<!-- template for the modal component -->
+
+				<modal v-bind="this.modalData" v-if="showModal" @close="showModal = false"></modal>
 
 	</main>
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="client.js" charset="UTF-8"></script>
+
+
+
 </body>
 </html>
 <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

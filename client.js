@@ -1,14 +1,63 @@
 const API_URL = 'http://localhost:5000/search/spb/3/'
 
+Vue.component('modal', {
+	props:['title', 'employer', 'salary', 'responsibility', 'requirement', 'address', 'date'],
+  template:`<transition name="modal">
+				    <div class="modal-mask">
+				      <div class="modal-wrapper">
+								<div class="modal-dialog modal-dialog-scrollable" role="document">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <h5 class="modal-title">{{ title }}</h5>
+								        <button @click="$emit('close')" type="button" class="close" data-dismiss="modal" aria-label="Close">
+								          <span aria-hidden="true">&times;</span>
+								        </button>
+								      </div>
+								      <div class="modal-body">
+												<p>Вакансия компании <a :href="employer.link">{{employer.name}}</a> <br> от {{date}}:</p>
+												<p>Описание: <br>
+													{{responsibility}}
+												</p>
+												<p>
+													Требования: <br>
+													{{requirement}}
+												</p>
+												<p></p>
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-secondary"  data-dismiss="modal">Close</button>
+								        <button type="button" class="btn btn-primary">Save changes</button>
+								      </div>
+								    </div>
+								  </div>
+				      </div>
+				    </div>
+				  </transition>`
+});
+
 const app = new Vue({
 	el: "#app",
 	data: {
+		showModal: false,
 		loading: false,
 		keyword:"",
 		activeKeyword : null,
 		keywords: [],
 		activeResults: [],
-		hiddenResults: {}
+		hiddenResults: {},
+		modalData: {
+			title: "",
+			salary: "",
+			link: "",
+			responsibility: "",
+			requirement: "",
+			employer: {
+				name: "",
+				link: ""
+			},
+			address: "",
+			date: ""
+		}
 	},
 	mounted() {
 		if(localStorage.keywords){
@@ -20,6 +69,21 @@ const app = new Vue({
 		}
 	},
 	methods: {
+		openModal(result){
+			this.modalData = result;
+			this.$nextTick(function () {
+        this.showModal = true;
+      })
+
+		},
+		updateMessage: async function (result) {
+	    this.modalData = result;
+	    await this.$nextTick()
+	    this.showModal = true;
+  	},
+		getIndexOfResult(result){
+			return this.activeResults.indexOf(result);
+		},
 		clearHiddenResults(){
 			this.hiddenResults = {};
 			localStorage.hiddenResults = JSON.stringify(this.hiddenResults);
