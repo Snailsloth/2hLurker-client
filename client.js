@@ -60,8 +60,11 @@ const app = new Vue({
 		}
 	},
 	mounted() {
+		//get data from local storage
 		if(localStorage.keywords){
 			this.keywords = JSON.parse(localStorage.keywords);
+			//set first tab active
+			this.setActiveKeyword(this.keywords[0])
 		}
 
 		if(localStorage.hiddenResults){
