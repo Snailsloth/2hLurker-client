@@ -101,20 +101,33 @@ const app = new Vue({
 			this.activeResults = [];
 			this.activeKeyword = '';
 			localStorage.keywords = JSON.stringify(this.keywords);
+			/*
+			make active prev keyword after removing old one:
+			if index of element was more than 0 , then i know that there is
+			more than 1 element in array. So i can set active previous element with index -1
+			*/
+			if(index > 0){
+				this.setActiveKeyword(this.keywords[index - 1]);
+			} else {
+				this.setActiveKeyword(this.keywords[0]);
+			}
 		},
+
 		hideResult(result){
 			this.$set(this.hiddenResults, result.link, true);
 			localStorage.hiddenResults = JSON.stringify(this.hiddenResults);
 		},
 		addKeyword(){
+			//check if submit is not empty
 			if(this.keyword.length !== 0){
 				this.keywords.push(this.keyword);
 				localStorage.keywords = JSON.stringify(this.keywords);
 
-				//make tab active if there is none
+				//make tab active if there is no active tabs
 				if(this.activeKeyword == null || this.activeKeyword.length < 1){
 					this.setActiveKeyword(this.keyword)
 				}
+				//clear input
 				this.keyword = "";
 			};
 		},
@@ -122,13 +135,17 @@ const app = new Vue({
 			this.activeResults = [];
 			this.activeKeyword = keyword;
 			this.loading = true;
+			this.getData(keyword);
+		},
+		getData(keyword){
 			const url = `${API_URL}${keyword}`;
 			fetch(url)
 				.then(response => response.json())
 				.then(json => {
 					this.activeResults = json.results;
 					this.loading = false;
-				})
-		}
+				});
+		},
+
 	}
 })
