@@ -112,7 +112,7 @@ const app = new Vue({
 				localStorage.keywords = JSON.stringify(this.keywords);
 
 				//make tab active if there is none
-				if(this.activeKeyword.length < 1 || this.activeKeyword.length == null){
+				if(this.activeKeyword == null || this.activeKeyword.length < 1){
 					this.setActiveKeyword(this.keyword)
 				}
 				this.keyword = "";
