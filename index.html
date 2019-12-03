@@ -57,17 +57,15 @@
 										<span
 											@click="hideResult(result)"
 										  class="text-right pr-3 cursorPointer align-self-end" data-toggle="tooltip" data-placement="top" title="Скрыть вакансию">➖</span>
-										<!-- <img src="img/open-sign.svg" class="card-img-top mx-auto" alt="Открыта вакансия" style="max-width:100px;"> -->
-										<div class="card-header">
+										<div class="card-header flex-fill">
 											<h6 class="card-title"><a :href="result.link" target="_blank">{{result.title}}</a></h6>
 										</div>
-										<div class="card-body">
+										<div class="card-body flex-fill">
 											<p v-if="result.salary" class="card-text">{{result.salary}}</p>
 											<p v-else class="card-text">з\п не указана</p>
-											<!-- Button trigger modal -->
 											<button id="show-modal" @click="updateMessage(result)" class="btn btn-outline-primary btn-sm">Подробнее..</button>
 										</div>
-										<div class="card-footer text-muted">
+										<div class="card-footer text-muted flex-fill">
 											<p>{{result.date}}</p>
 											<a :href="result.employer.link">{{result.employer.name}}</a>
 											<br>
@@ -79,13 +77,13 @@
 			</div>
 		</section>
 
+		<!-- template for the modal component -->
 
+		<modal v-bind="this.modalData" v-if="showModal" @close="showModal = false"></modal>
 
-				<!-- template for the modal component -->
-
-				<modal v-bind="this.modalData" v-if="showModal" @close="showModal = false"></modal>
 
 	</main>
+
 
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<script src="client.js" charset="UTF-8"></script>
